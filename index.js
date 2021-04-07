@@ -1,8 +1,12 @@
+import {createTask, deleteTask, getImages, getTasks} from "./service";
+
 const resultBlock = document.querySelector('#result');
 const pageNumberEl = document.querySelector('#page-number');
 const GetImagesButton = document.querySelector('#click-me');
 const GetTasksButton = document.querySelector('#get-tasks');
 
+//createTask('learn HTML');
+deleteTask()
 GetImagesButton.addEventListener('click', () => {
     const promise = getImages(pageNumberEl.value);
     promise.then(onImagesReceived);
@@ -21,14 +25,13 @@ function onImagesReceived(data) {
     });
 }
 
-createTask("learnJS").then((data)=> {
-    console.log(data)
-})
-
 function onTasksReceived(tasks) {
+    const result = document.querySelector('#tasks-result');
+    result.innerHTML = '';
     tasks.forEach(task => {
         const li = document.createElement('li');
         li.innerHTML = task.title;
-        document.querySelector('#tasks-result').appendChild(li);
+        li.dataset.id = task.id
+        result.appendChild(li);
     });
 }
